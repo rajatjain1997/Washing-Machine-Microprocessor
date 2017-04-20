@@ -12,31 +12,31 @@
 ## Interfacing
 * _8255_
 	* Port A:
-		0. Start
-		1. Stop
-		2. Load
-		3. Resume
-		4. Door Lock
-		5. Water Max
-		6. Water Min
+		1. Start
+		2. Stop
+		3. Load
+		4. Resume
+		5. Door Lock
+		6. Water Max
+		7. Water Min
 	* Port B: 
-		0. Agitator
-		1. Wash Tub
-		2. Buzzer 3
-		3. Buzzer 2
-		4. Buzzer 1
+		1. Agitator
+		2. Wash Tub
+		3. Buzzer 3
+		4. Buzzer 2
+		5. Buzzer 1
 	* Port C:
-		0. Seven Seg Display
 		1. Seven Seg Display
 		2. Seven Seg Display
 		3. Seven Seg Display
-		4. Gate of counter 0
-		5. Gate of counter 1
-		6. Gate of counter 3
+		4. Seven Seg Display
+		5. Gate of counter 0
+		6. Gate of counter 1
+		7. Gate of counter 3
 * _8259_
 	* IR
-		0. Counter 0
-		1. Counter 1
-		2. Counter 2
+		1. Counter 0
+		2. Counter 1
+		3. Counter 2
 * _8253_
 	* CLK = 1 Hz (1 count/second)
