@@ -1,6 +1,6 @@
 # Washing-Machine-Microprcessor
 
-##Addresses
+## Addresses
 	* _Memory_
 		* RAM: 00000h - 00FFFh
 		* ROM: FF000h - FFFFFh
