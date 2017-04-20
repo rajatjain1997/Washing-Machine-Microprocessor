@@ -11,6 +11,14 @@
 
 ## Interfacing
 * _8255_
+	* Port A:
+		0. Start
+		1. Stop
+		2. Load
+		3. Resume
+		4. Door Lock
+		5. Water Max
+		6. Water Min
 	* Port B: 
 		0. Agitator
 		1. Wash Tub
@@ -31,4 +39,4 @@
 		1. Counter 1
 		2. Counter 2
 * _8253_
-	* CLK = ??
+	* CLK = 1 Hz (1 count/second)
