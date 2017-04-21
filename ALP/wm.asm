@@ -10,9 +10,12 @@
     CREG_8253 EQU 0EH
     CREG0_8259 EQU 10H
     CREG1_8259 EQU 12H
-    MODENO DB 00H   
+    MODENO DB 00H
+    STACK DW 100 DUP(?)
+    ;TOP_STACK REMEMBER TO DEFINE!!!    
 .code
-.startup        
+.startup
+    LEA SP, TOP_STACK        
     MOV AL,10010000B
     OUT CREG_8255,AL
     
@@ -20,7 +23,7 @@
         IN AL, PORTA
         CMP AL, 11101110B
     JNZ START  
-          
+    CALL DEBOUNCE_DELAY
     MOV AL,00001111B
     OUT CREG_8255,AL      
           
@@ -31,8 +34,10 @@
         CMP AL, 11111011B
         JNZ LOAD
         INC BYTE PTR MODENO
+        CALL DEBOUNCE_DELAY
     JMP LOAD
     LOADEXIT:
+    CALL DEBOUNCE_DELAY
     MOV AL, 09H
     OUT PORTC, AL
     ;MOV AH, MODENO
@@ -56,4 +61,13 @@
     INF:
     JMP INF
 .exit
+
+PROC DEBOUNCE_DELAY NEAR
+    DEBOUNCE:       
+        IN AL,PORTA
+        CMP AL,11111111B
+        JNZ DEBOUNCE
+    RET
+DEBOUNCE_DELAY ENDP
+    
 end
