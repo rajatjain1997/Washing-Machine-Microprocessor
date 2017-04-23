@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <WORKSPACE>
- <FRAME activewindow="0">
+ <FRAME activewindow="2">
   <PLACEMENT>2c0000000200000003000000ffffffffffffffffffffffffffffffff8300000009000000d3040000cf020000</PLACEMENT>
-  <WINDOW type="default" module="ISIS"/>
   <WINDOW type="default" module="DXP"/>
+  <WINDOW type="default" module="ISIS"/>
   <WINDOW type="default" module="VSMDEBUG"/>
  </FRAME>
  <MODULE name="VSMDEBUG">
@@ -60,7 +60,7 @@
      <ITEM name="DispFormat">2</ITEM>
      <ITEM name="ShowChanges">Yes</ITEM>
      <ITEM name="ShowToolTips">Yes</ITEM>
-     <ITEM name="TopLineAddress">00000000</ITEM>
+     <ITEM name="TopLineAddress">00001F00</ITEM>
     </PROPERTIES>
    </POPUP>
    <POPUP w="40" x="619" flags="00000008" y="103" h="13" pid="2" iid="1">
@@ -101,7 +101,7 @@
      <ITEM name="DispFormat">2</ITEM>
      <ITEM name="ShowChanges">Yes</ITEM>
      <ITEM name="ShowToolTips">Yes</ITEM>
-     <ITEM name="TopLineAddress">00000000</ITEM>
+     <ITEM name="TopLineAddress">00000110</ITEM>
     </PROPERTIES>
    </POPUP>
   </PWI>
