@@ -15,20 +15,31 @@
     STACK DW 100 DUP(?)
     TOP_STACK LABEL WORD   
 .code
-.startup
+.startup 
+    LEA SP, TOP_STACK
     ;---STORE THE ISR ADDRESS OF THE NMI(STOP) IN THE IVT
-    ;MOV DX,OFFSET STOP_BUTTON
-    ;MOV AX,2502H
-    ;INT 21H
+    MOV AX,0
+    MOV ES,AX
+    ;calculate vector address for interrupt 02H(NMI)
+    MOV AL,02H
+    MOV BL,04H
+    MUL BL
+    MOV BX,AX
     
+    MOV SI,OFFSET [STOP_BUTTON]
+    MOV ES:[BX],SI
+    ADD BX,2
     
-    
-    
-    LEA SP, TOP_STACK        
+    MOV AX,0000
+    MOV ES:[BX],AX  
     MOV AL,10010000B        ;programming the 8255
     OUT CREG_8255,AL
-    POLL_START:
-    CALL STORE_IP           ;this will store the IP address of the next instruction in STARTING_IP
+    POLL_START:   
+    MOV AL,08H
+    OUT PORTC,AL
+    MOV AX,OFFSET [POLL_START]
+    MOV STARTING_IP,AX
+    ;CALL STORE_IP           ;this will store the IP address of the next instruction in STARTING_IP
     MOV AL,00H
     OUT PORTB,AL            ;initially no output device in PORT B(agitator,buzzer) should be ON
     ;CALL INITIALIZE_INT     ;--remove this line
@@ -36,6 +47,8 @@
     
     
     START:                  ;polling the START button
+        MOV AL,00H
+        MOV MODENO,AL       ;**moving 0 into mode number
         IN AL, PORTA
         CMP AL, 11111110B
     JNZ START  
@@ -275,6 +288,14 @@
     
     ;INF:
     ;JMP INF
+    STOP_BUTTON:              ;this procedure is an ISR for NMI(STOP button)
+        MOV BP,SP
+        MOV AL,00H
+        OUT PORTB,AL
+        OUT PORTC,AL
+        MOV AX,STARTING_IP ;this will put in stack the IP address of the starting line of program
+        MOV [BP],AX
+        IRET               ;now the IP address popped will be of the starting line of program
 .exit
 
 STORE_IP PROC NEAR          ;this procedure will store the IP address
@@ -343,7 +364,7 @@ INT50H ENDP
 
 DELAY_1m PROC NEAR          ;this procedure is used to generate a delay of 1 minute
     PUSH CX                 ;for simulation purpose 1 minute(virtual) = 10 seconds(real)
-    MOV BX,000FH
+    MOV BX,00E5H
     L2:MOV CX,0FFFFH
     L1:NOP
         LOOP L1
@@ -353,19 +374,12 @@ DELAY_1m PROC NEAR          ;this procedure is used to generate a delay of 1 min
         RET
 DELAY_1m ENDP
 
-
-
-
-
-
 WATER_MAX PROC NEAR         ;this procedure checks if water level is max
                             ;water level is max when the pressure sensitive switch(WATER_MAX) is pressed
     CHECK1:
         IN AL,PORTA
         CMP AL,11001111B
-    JNE CHECK1
-    MOV AL,06H
-    OUT PORTC,AL 
+    JNE CHECK1 
     RET
 WATER_MAX ENDP 
 
@@ -374,17 +388,13 @@ WATER_MIN PROC NEAR         ;this procedure checks if water level is min
     CHECK2:
         IN AL,PORTA
         CMP AL,10101111B
-    JNE CHECK2
-    MOV AL,07H
-    OUT PORTC,AL 
+    JNE CHECK2 
     RET
 WATER_MIN ENDP
 
 BUZZER_RINSE PROC NEAR      ;this procedure activates a buzzer after rinse cycle in complete
     MOV AL,10H
     OUT PORTB,AL
-    MOV AL,08H
-    OUT PORTC,AL
     CALL DELAY_1m
     MOV AL,00H
     OUT PORTB,AL
@@ -415,23 +425,9 @@ CHECK_RESUME PROC NEAR      ;this procedure checks if resume button is pressed o
         IN AL,PORTA
         OR AL,11100111B
         CMP AL,11100111B
-        JNE CHECKR
-        MOV AL,08H
-    OUT PORTC,AL
-        
+        JNE CHECKR     
     RET
 CHECK_RESUME ENDP
-
-STOP_BUTTON PROC NEAR              ;this procedure is an ISR for NMI(STOP button)
-    MOV BP,SP
-    MOV AL,00H
-    OUT PORTB,AL
-    OUT PORTC,AL
-    MOV AX,STARTING_IP ;this will put in stack the IP address of the starting line of program
-    MOV [BP],AX
-    IRET               ;now the IP address popped will be of the starting line of program 
-STOP_BUTTON ENDP
-
 
 
 end
