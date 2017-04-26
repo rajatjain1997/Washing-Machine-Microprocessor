@@ -2,12 +2,10 @@
 
 ## Addresses
 * _Memory_
-	* RAM: 00000h - 00FFFh
-	* ROM: FF000h - FFFFFh
+	* ROM: 00000h - 01FFFh
+	* RAM: 02000h - 02FFFh
 * _IO_
-	* 8255:	00h - 07h 
-	* 8253: 08h - 0Fh
-	* 8259: 10h - 12h
+	* 8255:	00h - 07h
 
 ## Interfacing
 * _8255_
@@ -33,10 +31,3 @@
 		5. Gate of counter 0
 		6. Gate of counter 1
 		7. Gate of counter 3
-* _8259_
-	* IR
-		1. Counter 0
-		2. Counter 1
-		3. Counter 2
-* _8253_
-	* CLK = 1 Hz (1 count/second)
